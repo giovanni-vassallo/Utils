@@ -1,0 +1,66 @@
+      /*
+       *Máscara para HORA caso I.E.
+       */
+        var input = document.querySelector('#hora_ini');
+        var input2 = document.querySelector('#hora_fim');
+
+        var dateInputMask = function dateInputMask(elm) {
+          elm.addEventListener('keypress', function(e) {
+            //Cancela tecla Não-número
+            if(e.keyCode < 47 || e.keyCode > 57) {
+              e.preventDefault();
+            }
+
+            var len = elm.value.length;
+            //Completa o campo caso primeiro número digitado seja maior do que 2
+            if (len == 0) {
+              if (String.fromCharCode(e.keyCode) > 2) {
+                elm.value = "0"+String.fromCharCode(e.keyCode)+':';
+                e.preventDefault();
+                return false;
+              }
+            }
+
+            if(len !== 1 || len !== 3) {
+              if(e.keyCode == 47) {
+                e.preventDefault();
+              }
+            }
+            //Não permite que o valor de HORAS ultrapasse 23
+            if(len === 2) {
+              if(elm.value > 23) {
+                elm.value = 23;
+                e.preventDefault();
+                elm.value += ':';
+                return false;
+              }
+              elm.value += ':';
+            }
+
+            //Não permite que o valor de MINUTOS ultrapasse 59
+            if(len === 4) {
+              valor = elm.value.substring(3,4);
+              if (valor >5) {
+                elm.value = elm.value.substring(0,3)+59;
+                e.preventDefault();
+                return false;
+              }
+            }
+            //Verificação de Segundos
+            if(len === 5) {
+              elm.value += ':';
+            }
+
+            if(len === 7) {
+              valor = elm.value.substring(6,7);
+              if (valor >5) {
+                elm.value = elm.value.substring(0,6)+5;
+                e.preventDefault();
+                return false;
+              }
+            }
+          });
+        };
+        //Habilitar Função
+        dateInputMask(input);
+        dateInputMask(input2);
